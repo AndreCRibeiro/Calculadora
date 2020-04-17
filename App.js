@@ -1,114 +1,208 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
   StatusBar,
+  TouchableOpacity,
+  TextInput,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+export default class App extends Component {
+  state = {
+    a: '',
+    b: '',
+    operation: '',
+    result: '',
+  };
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
+  handleResult = () => {
+    const { a, b, operation } = this.state;
+
+    const FirstNumber = parseFloat(a);
+    const SecondNumber = parseFloat(b);
+
+    if (operation === '+') {
+      const soma = FirstNumber + SecondNumber;
+      this.setState({ result: soma });
+    } else {
+      const sub = SecondNumber - FirstNumber;
+      this.setState({ result: sub });
+    }
+  };
+
+  render() {
+    const { a, b, result, operation } = this.state;
+
+    return (
+      <>
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
+        <View style={styles.container}>
+          <View style={styles.result}>
+            <Text>{`${b} ${operation} ${a}`}</Text>
+            {result ? <Text>{` = ${result}`}</Text> : null}
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+          <View style={styles.options}>
+            <View style={styles.row}>
+              <TouchableOpacity
+                onPress={() => {
+                  operation ? this.setState({ a: 1 }) : this.setState({ b: 1 });
+                }}
+                style={styles.buttons}>
+                <Text>1</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  operation ? this.setState({ a: 2 }) : this.setState({ b: 2 });
+                }}
+                style={styles.buttons}>
+                <Text>2</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  operation ? this.setState({ a: 3 }) : this.setState({ b: 3 });
+                }}
+                style={styles.buttons}>
+                <Text>3</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.row}>
+              <TouchableOpacity
+                onPress={() => {
+                  operation ? this.setState({ a: 4 }) : this.setState({ b: 4 });
+                }}
+                style={styles.buttons}>
+                <Text>4</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  operation ? this.setState({ a: 5 }) : this.setState({ b: 5 });
+                }}
+                style={styles.buttons}>
+                <Text>5</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  operation ? this.setState({ a: 6 }) : this.setState({ b: 6 });
+                }}
+                style={styles.buttons}>
+                <Text>6</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.row}>
+              <TouchableOpacity
+                onPress={() => {
+                  operation ? this.setState({ a: 7 }) : this.setState({ b: 7 });
+                }}
+                style={styles.buttons}>
+                <Text>7</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  operation ? this.setState({ a: 8 }) : this.setState({ b: 8 });
+                }}
+                style={styles.buttons}>
+                <Text>8</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  operation ? this.setState({ a: 9 }) : this.setState({ b: 9 });
+                }}
+                style={styles.buttons}>
+                <Text>9</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.row}>
+              <TextInput
+                style={styles.input}
+                placeholder="Primeiro valor"
+                onChangeText={(text) => {
+                  operation
+                    ? this.setState({ a: text })
+                    : this.setState({ b: text });
+                }}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Segundo valor"
+                onChangeText={(text) => {
+                  operation
+                    ? this.setState({ a: text })
+                    : this.setState({ b: text });
+                }}
+              />
+            </View>
+            <View style={styles.row}>
+              <Text>Operações: </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({ operation: '+' });
+                }}
+                style={styles.buttons}>
+                <Text>+</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({ operation: '-' });
+                }}
+                style={styles.buttons}>
+                <Text>-</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.handleResult();
+                }}
+                style={styles.buttons}>
+                <Text>=</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({ a: '', b: '', operation: '', result: '' });
+                }}
+                style={styles.buttons}>
+                <Text>Reset</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  result: {
+    marginBottom: 25,
+    backgroundColor: '#aaa',
+    width: '75%',
+    height: '5%',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
-  body: {
-    backgroundColor: Colors.white,
+  options: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eee',
+    width: '75%',
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  row: {
+    flexDirection: 'row',
+    marginTop: 2,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+  buttons: {
+    marginLeft: 15,
+    marginBottom: 5,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  input: {
+    margin: 5,
+    backgroundColor: '#bbb',
+    marginBottom: 10,
   },
 });
-
-export default App;
